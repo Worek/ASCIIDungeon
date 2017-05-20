@@ -15,5 +15,12 @@ namespace AsciiDungeon
             this.nameOfSkill = name;
             this.skillEffect = effect;
         }
+
+        public override string ToString()
+        {
+            StringBuilder returnString = new StringBuilder();
+            returnString.Append($"{this.nameOfSkill} -> obrazenia: {this.skillEffect.damege} szansa trafienia: {this.skillEffect.chanceOfSucces}");
+            return returnString.ToString();
+        }
     }
 }

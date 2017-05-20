@@ -8,8 +8,8 @@ namespace AsciiDungeon
 {
     class Map
     {
-        List<Position> listOfPositionsOfHeroes { get; set; }
-        List<Position> listOfPositionsOfVillans { get; set; }
+        public List<Position> listOfPositionsOfHeroes { get; set; }
+        public List<Position> listOfPositionsOfVillans { get; set; }
 
         public Map()
         {

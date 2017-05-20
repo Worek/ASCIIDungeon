@@ -21,5 +21,30 @@ namespace AsciiDungeon
             Console.WriteLine(graphicDefines.getCopyright());
             Console.ReadKey();
         }
+
+        //--Drukowanie informacji o bochaterach
+        static public void printHeroesInfo(Map actuallMap)
+        {
+            Console.WriteLine("Bochaterowie: ");
+            foreach (var val in actuallMap.listOfPositionsOfHeroes)
+                Console.WriteLine(val.getChararcterOnPosition());
+        }
+        static public void printVillansInfo(Map actuallMap)
+        {
+            Console.WriteLine("Wrogowie: ");
+            foreach (var val in actuallMap.listOfPositionsOfVillans)
+                Console.WriteLine(val.getChararcterOnPosition());
+        }
+
+        static public void printAllCommands()
+        {
+            Console.Clear();
+            Console.WriteLine("{0,-15}-> wyswietla ten tekst", definsCommands.commnadForHelp);
+            Console.WriteLine("modol game:");
+            Console.WriteLine("{0,-15}-> wyjscie z gry", definsCommands.commandForGameExit);
+
+            Console.WriteLine("Aby kontynuowac nacisnij <ENTER>");
+            Console.ReadKey();
+        }
     }
 }

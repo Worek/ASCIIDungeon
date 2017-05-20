@@ -11,19 +11,42 @@ namespace AsciiDungeon
         private UI userInterface { get; set; }
         private Map actualMapOfGame { get; set; }
         private CharacterController characterController { get; set; }
+        private String enteredCommand { get; set; }
+
         public GameController()
         {
             actualMapOfGame = new Map();
             characterController = new CharacterController();
         }
+
+        //----------------------------Rozpoczecie nowej gry
         public void startNewGame()
         {
+            
             UI.printHelloMessege();
-            Console.Clear();
             generateNewDefHeroes();
-            UI.printOnConsoleMapStatus(actualMapOfGame);
+            mainLoop();
+        }
 
-            Console.ReadKey();
+        private void mainLoop()
+        {
+            do
+            {
+                Console.Clear();
+                UI.printOnConsoleMapStatus(actualMapOfGame);
+                UI.printHeroesInfo(actualMapOfGame);
+                UI.printVillansInfo(actualMapOfGame);
+                enteredCommand = Console.ReadLine();
+                switch (enteredCommand)
+                {
+                    case definsCommands.commnadForHelp:
+                        UI.printAllCommands();
+                        break;
+
+                    default:
+                        break;
+                }
+            }while (!enteredCommand.Equals(definsCommands.commandForGameExit));
         }
 
         private void generateNewDefHeroes()
