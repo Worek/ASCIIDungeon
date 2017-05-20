@@ -12,6 +12,10 @@ namespace AsciiDungeon
         private Map actualMapOfGame { get; set; }
         private CharacterController characterController { get; set; }
         private String enteredCommand { get; set; }
+        private enum commands
+        {
+            exit, attack, move, options, def, help
+        }
 
         public GameController()
         {
@@ -32,23 +36,49 @@ namespace AsciiDungeon
         {
             do
             {
+                
                 Console.Clear();
                 UI.printOnConsoleMapStatus(actualMapOfGame);
                 UI.printHeroesInfo(actualMapOfGame);
                 UI.printVillansInfo(actualMapOfGame);
+                writeCommandAgain:
                 enteredCommand = Console.ReadLine();
-                switch (enteredCommand)
+                switch (parseCommand(enteredCommand))
                 {
-                    case definsCommands.commnadForHelp:
+                    case commands.help:
                         UI.printAllCommands();
                         break;
 
-                    default:
+                    case commands.attack:
+                        characterController.attack(enteredCommand, actualMapOfGame);
                         break;
+
+                    case commands.move:
+                        break;
+
+                    case commands.exit:
+                        //nic nie zrobi bo trza wyjsc :P
+                        break;
+                    default:
+                        Console.WriteLine("Niepoprawna komenda\nWpisz <help> by uzyskac liste wszystkich komend");
+                        goto writeCommandAgain;
                 }
             }while (!enteredCommand.Equals(definsCommands.commandForGameExit));
         }
 
+
+        private commands parseCommand(string enteredCommand)
+        {
+            if (enteredCommand.Equals(definsCommands.commandForGameExit))
+                return commands.exit;
+            if (enteredCommand.Equals(definsCommands.commnadForHelp))
+                return commands.help;
+            if (enteredCommand.Contains(definsCommands.commandForAttack))
+                return commands.attack;
+            if (enteredCommand.Contains(definsCommands.commandForMove))
+                return commands.move;
+            return commands.def;
+        }
         private void generateNewDefHeroes()
         {
             actualMapOfGame.addHero(characterController.generateDefElf());

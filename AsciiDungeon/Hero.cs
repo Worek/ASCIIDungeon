@@ -9,15 +9,13 @@ namespace AsciiDungeon
     class Character
     {
         public int positionInLine { get; private set; }
-        public int healthOfCharacter { get; private set; }
-        public int maxHealth { get; private set; }
         public string race { get; private set; }
         public string nameOfCharacter { get; private set; }
         public List<Skill> listOfSkills { get; private set; }
         public StatisticsOfCharacter stats { get; private set; }
         private bool isItsTour { get; set; }
 
-        private bool isAlive { get; set; }
+        public bool isAlive { get; private set; }
 
 
         public Character(string name, List<Skill> list, string race, StatisticsOfCharacter stats)
@@ -39,6 +37,16 @@ namespace AsciiDungeon
             }
             else
                 return graphicDefines.getKilledMark(); ;
+        }
+
+        public void getDamage(int value)
+        {
+            stats.health -= value;
+            if (stats.health < 0)
+            {
+                isAlive = false;
+                stats.health = 0;
+            }
         }
 
         public override string ToString()

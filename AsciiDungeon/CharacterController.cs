@@ -9,8 +9,65 @@ namespace AsciiDungeon
     class CharacterController
     {
 
+        public bool attack(string command, Map mapOfGame)
+        {
+            string newCommand = command.Remove(0, (definsCommands.commandForAttack.Length + 1));
+            newCommand = newCommand.Remove(newCommand.Length-1, 1);   //usuwa zamkniecie nawiasu
+            string[] newCommandSplitted = newCommand.Split(',');
+            //foreach (var val in newCommandSplitted)
+            //    UI.printText(val);
+            if (newCommandSplitted.Length != 3)
+            {
+                UI.printMessege($"Niepoprawna komenda\nWzor poprawnej komendy: {definsCommands.rightAttackCommand}\nAby kontynuowac nacisnij <ENTER>");
+                return false;
+            }
+            int heroNumber, villanNumber, skill = 0;
+            if (!(Int32.TryParse(newCommandSplitted[0], out heroNumber) && Int32.TryParse(newCommandSplitted[1], out villanNumber) && Int32.TryParse(newCommandSplitted[2], out skill)))
+            {
+                UI.printMessege($"Niepoprawna komenda\nWzor poprawnej komendy: {definsCommands.rightAttackCommand} -> wszystkie wartosci powinny byc liczbami calkowitymi\nAby kontynuowac nacisnij <ENTER>");
+                return false;
+            }
 
+            //blok dzialania skilla
+            Character hero = mapOfGame.listOfPositionsOfHeroes[heroNumber].getChararcterOnPosition();
+            Character villan = mapOfGame.listOfPositionsOfVillans[heroNumber].getChararcterOnPosition();
+            int helpHealth = villan.stats.health;
+            UI.printAttackSequence(hero, villan, skill);
+            if(attackSequence(hero, villan, skill))
+            {
+                UI.printMessege($"Udalo sie!\n{villan.nameOfCharacter} poniosl obrazenia w wysokosci {helpHealth-villan.stats.health}");
+                return true;
+            }else
+            {
+                UI.printMessege("Pudlo!");
+                return false;
+            }
+        }
+
+
+        public bool attackSequence( Character attacer, Character defender, int skillNumber)
+        {
+            Random r = new Random();
+            if(r.Next(0, 100) > attacer.listOfSkills[skillNumber].skillEffect.chanceOfSucces)
+            {//nie udalo sie
+                return false;
+            }else
+            {//udalo sie
+                defender.getDamage((attacer.listOfSkills[skillNumber].skillEffect.damege*(attacer.stats.strength/10))-(defender.stats.defence/5)); //(dmg*sila/10)-obrona/5
+                return true;
+            }
+        }
+
+        public bool move(string command, Map mapOfGame)
+        {
+            return true;
+        }
         
+
+
+
+
+
 
         // Jakieś defaultowe postacie - narazie wystarczy :P
         public Character generateDefElf()

@@ -36,14 +36,36 @@ namespace AsciiDungeon
                 Console.WriteLine(val.getChararcterOnPosition());
         }
 
+        static public void printAttackSequence(Character attacer, Character defender, int skillNumber)
+        {
+            Console.Clear();
+            Console.WriteLine("{0} atakuje {1} przy pomocy skilla\n{2}", attacer.nameOfCharacter, defender.nameOfCharacter, attacer.listOfSkills[skillNumber].nameOfSkill);
+        }
+
         static public void printAllCommands()
         {
             Console.Clear();
-            Console.WriteLine("{0,-15}-> wyswietla ten tekst", definsCommands.commnadForHelp);
+            Console.WriteLine("{0,-45}-> wyswietla ten tekst", definsCommands.commnadForHelp);
             Console.WriteLine("modol game:");
-            Console.WriteLine("{0,-15}-> wyjscie z gry", definsCommands.commandForGameExit);
+            Console.WriteLine("{0,-45}-> wyjscie z gry", definsCommands.commandForGameExit);
+
+            Console.WriteLine("sterowanie postaciami");
+            Console.WriteLine("{0,-45}->poprawne polecenie ataku", definsCommands.rightAttackCommand);
+            Console.WriteLine("{0,-45}->poprawne polecenie poroszenia postaci", definsCommands.rightMoveCommand);
 
             Console.WriteLine("Aby kontynuowac nacisnij <ENTER>");
+            Console.ReadKey();
+        }
+
+        static public void printMessege(string messege)
+        {
+            Console.WriteLine(messege);
+            Console.ReadKey();
+        }
+
+        static public void printDebugText(string toPrint)
+        {
+            Console.WriteLine(toPrint);
             Console.ReadKey();
         }
     }

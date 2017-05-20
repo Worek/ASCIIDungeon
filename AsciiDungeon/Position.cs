@@ -41,7 +41,12 @@ namespace AsciiDungeon
         public string getNameOfCharackterOnPosition()
         {
             if (this.isSomeoneOnThisPosition)
-                return this.characterOnPosition.nameOfCharacter;
+            {
+                if (characterOnPosition.isAlive)
+                    return this.characterOnPosition.nameOfCharacter;
+                else
+                    return graphicDefines.getKilledMark();
+            }
             else
                 return graphicDefines.getSpaceOfFreePosition();
         }
