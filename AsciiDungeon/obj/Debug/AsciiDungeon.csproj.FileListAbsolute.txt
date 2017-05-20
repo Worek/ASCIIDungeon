@@ -1,0 +1,6 @@
+G:\Studia\Semestr 6\SI\Ćwiczenie3\AsciiDungeon\AsciiDungeon\bin\Debug\AsciiDungeon.exe.config
+G:\Studia\Semestr 6\SI\Ćwiczenie3\AsciiDungeon\AsciiDungeon\bin\Debug\AsciiDungeon.exe
+G:\Studia\Semestr 6\SI\Ćwiczenie3\AsciiDungeon\AsciiDungeon\bin\Debug\AsciiDungeon.pdb
+G:\Studia\Semestr 6\SI\Ćwiczenie3\AsciiDungeon\AsciiDungeon\obj\Debug\AsciiDungeon.csprojResolveAssemblyReference.cache
+G:\Studia\Semestr 6\SI\Ćwiczenie3\AsciiDungeon\AsciiDungeon\obj\Debug\AsciiDungeon.exe
+G:\Studia\Semestr 6\SI\Ćwiczenie3\AsciiDungeon\AsciiDungeon\obj\Debug\AsciiDungeon.pdb
