@@ -19,6 +19,10 @@ namespace AsciiDungeon
         //poprawny move: move(<kto>,<gdzie>)
         public const string rightMoveCommand = @"move(<kto>,<gdzie>)";
         public const string commandForMove = "move";
-            
+
+        public const string rightUseItemCommand = @"use(<kto>,<co>)";
+        public const string commandForUseItem = @"use";
+        
+
     }
 }

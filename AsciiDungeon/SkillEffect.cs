@@ -20,5 +20,11 @@ namespace AsciiDungeon
             this.chanceOfSucces = chanche;
             this.damege = damege;
         }
+
+        public SkillEffect(SkillEffect clone)
+        {
+            this.chanceOfSucces = clone.chanceOfSucces;
+            this.damege = clone.damege;
+        }
     }
 }

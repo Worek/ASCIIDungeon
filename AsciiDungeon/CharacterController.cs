@@ -28,9 +28,26 @@ namespace AsciiDungeon
                 return false;
             }
 
+            heroNumber--;
+            villanNumber--;
+            skill--;
+
+            if (heroNumber >= mapOfGame.listOfPositionsOfHeroes.Count() || heroNumber < 0 || villanNumber >= mapOfGame.listOfPositionsOfVillans.Count() || villanNumber < 0)
+            {
+                UI.printMessege("Niepoprawny nr postaci");
+                return false;
+            }
+
             //blok dzialania skilla
             Character hero = mapOfGame.listOfPositionsOfHeroes[heroNumber].getChararcterOnPosition();
-            Character villan = mapOfGame.listOfPositionsOfVillans[heroNumber].getChararcterOnPosition();
+            Character villan = mapOfGame.listOfPositionsOfVillans[villanNumber].getChararcterOnPosition();
+
+            if (skill >= hero.listOfSkills.Count() || skill < 0)
+            {
+                UI.printMessege("Niepoprawny nr umiejetnosci");
+                return false;
+            }
+
             int helpHealth = villan.stats.health;
             UI.printAttackSequence(hero, villan, skill);
             if(attackSequence(hero, villan, skill))
@@ -40,12 +57,12 @@ namespace AsciiDungeon
             }else
             {
                 UI.printMessege("Pudlo!");
-                return false;
+                return true;
             }
         }
 
 
-        public bool attackSequence( Character attacer, Character defender, int skillNumber)
+        public static bool attackSequence( Character attacer, Character defender, int skillNumber)
         {
             Random r = new Random();
             if(r.Next(0, 100) > attacer.listOfSkills[skillNumber].skillEffect.chanceOfSucces)
@@ -53,9 +70,18 @@ namespace AsciiDungeon
                 return false;
             }else
             {//udalo sie
-                defender.getDamage((attacer.listOfSkills[skillNumber].skillEffect.damege*(attacer.stats.strength/10))-(defender.stats.defence/5)); //(dmg*sila/10)-obrona/5
+                defender.getDamage((attacer.listOfSkills[skillNumber].skillEffect.damege*(attacer.stats.strength/10))-(defender.stats.defence/2)); //(dmg*sila/10)-obrona/2
                 return true;
             }
+        }
+
+        public static int attackDamage(Character attacer, Character defender, int skillNumber)
+        {
+            int damage = (attacer.listOfSkills[skillNumber].skillEffect.damege * (attacer.stats.strength / 10)) - (defender.stats.defence / 2);
+            if (damage < 0)
+                return 0;
+            else
+                return damage;
         }
 
         public bool move(string command, Map mapOfGame)
@@ -63,11 +89,60 @@ namespace AsciiDungeon
             return true;
         }
         
+        public bool useItem(string command, Map mapOfGame)
+        {
+            string newCommand = command.Remove(0, (definsCommands.commandForUseItem.Length + 1));
+            newCommand = newCommand.Remove(newCommand.Length - 1, 1);   //usuwa zamkniecie nawiasu
+            string[] newCommandSplitted = newCommand.Split(',');
+            //foreach (var val in newCommandSplitted)
+            //    UI.printText(val);
+            if (newCommandSplitted.Length != 2)
+            {
+                UI.printMessege($"Niepoprawna komenda\nWzor poprawnej komendy: {definsCommands.rightUseItemCommand}\nAby kontynuowac nacisnij <ENTER>");
+                return false;
+            }
+            int heroNumber, itemNumber = 0;
+            if (!(Int32.TryParse(newCommandSplitted[0], out heroNumber) &&  Int32.TryParse(newCommandSplitted[1], out itemNumber)))
+            {
+                UI.printMessege($"Niepoprawna komenda\nWzor poprawnej komendy: {definsCommands.rightUseItemCommand} -> wszystkie wartosci powinny byc liczbami calkowitymi\nAby kontynuowac nacisnij <ENTER>");
+                return false;
+            }
+
+            if (heroNumber >= mapOfGame.listOfPositionsOfHeroes.Count() || heroNumber < 0)
+            {
+                UI.printMessege("Niepoprawny nr postaci");
+                return false;
+            }
+            heroNumber--;
+            itemNumber--;
+            //blok dzialania itemy
+            Character hero = mapOfGame.listOfPositionsOfHeroes[heroNumber].getChararcterOnPosition();
+
+            if(itemNumber>=hero.itemList.Count() || itemNumber < 0)
+            {
+                UI.printMessege("Niepoprawny nr przedmiotu");
+                return false;
+            }
+            int helpHealth = hero.stats.health;
+            int helpDef = hero.stats.defence;
+            hero.useItem(hero.itemList[itemNumber]);
+            if (hero.itemList[itemNumber].healthEffect != 0)
+                UI.printMessege($"{hero.nameOfCharacter} odnowil {hero.stats.health - helpHealth} pkt zdrowia");
+            if (hero.itemList[itemNumber].defenceEffect != 0)
+                UI.printMessege($"{hero.nameOfCharacter} dostal {hero.stats.defence - helpDef} pkt do obrony");
+            
+            
+            return true;
+        }
+
+        public bool grantItem(string command, Map mapOfGame)
+        {
+
+            return true;
+        }
 
 
-
-
-
+        
 
         // Jakieś defaultowe postacie - narazie wystarczy :P
         public Character generateDefElf()
@@ -76,6 +151,7 @@ namespace AsciiDungeon
             skills.Add(new Skill("Atak Wrecz", new SkillEffect(40, 4)));
             skills.Add(new Skill("Atak Łukiem", new SkillEffect(70, 30)));
             skills.Add(new Skill("Atak nozem", new SkillEffect(60, 15)));
+            
             return new Character("A", skills, "elf", new StatisticsOfCharacter(100, 40, 70, 30));
         }
 

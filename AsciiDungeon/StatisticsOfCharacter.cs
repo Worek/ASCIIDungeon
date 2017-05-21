@@ -22,5 +22,14 @@ namespace AsciiDungeon
             this.inteligence = inteligence;
             this.defence = defence;
         }
+
+        public StatisticsOfCharacter(StatisticsOfCharacter clone)
+        {
+            this.maxHealth = clone.maxHealth;
+            this.health = clone.health;
+            this.strength = clone.strength;
+            this.inteligence = clone.inteligence;
+            this.defence = clone.defence;
+        }
     }
 }

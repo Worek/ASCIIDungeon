@@ -18,6 +18,13 @@ namespace AsciiDungeon
             this.isSomeoneOnThisPosition = false;
         }
 
+        public Position(Position clone)
+        {
+            this.numberOfPosition = clone.numberOfPosition;
+            this.characterOnPosition = new Character(clone.characterOnPosition);
+            this.isSomeoneOnThisPosition = clone.isSomeoneOnThisPosition;
+        }
+
         public bool setCharacterToThisPosition(Character character)
         {
             if (this.isSomeoneOnThisPosition)

@@ -13,8 +13,22 @@ namespace AsciiDungeon
 
         public Map()
         {
-            listOfPositionsOfHeroes = new List<Position>() { new Position(1), new Position(2), new Position(3), new Position(4) };
-            listOfPositionsOfVillans = new List<Position>() { new Position(1), new Position(2), new Position(3), new Position(4)};
+            listOfPositionsOfHeroes = new List<Position>() { new Position(0), new Position(1), new Position(2), new Position(3) };
+            listOfPositionsOfVillans = new List<Position>() { new Position(0), new Position(1), new Position(2), new Position(3)};
+        }
+
+        public Map(Map clone)
+        {
+            listOfPositionsOfHeroes = new List<Position>();
+            foreach(var val in clone.listOfPositionsOfHeroes)
+            {
+                this.listOfPositionsOfHeroes.Add(new Position(val));
+            }
+            listOfPositionsOfVillans = new List<Position>();
+            foreach (var val in clone.listOfPositionsOfVillans)
+            {
+                this.listOfPositionsOfVillans.Add(new Position(val));
+            }
         }
 
         public bool addHero(Character hero)
